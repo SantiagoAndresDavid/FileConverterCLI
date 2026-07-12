@@ -7,3 +7,5 @@ LOG_DIR = BASE_DIR / "logs"
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 LOG_DIR.mkdir(exist_ok=True)
+
+LOG_FILE = LOG_DIR / "converter.log"
