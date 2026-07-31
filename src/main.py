@@ -1,27 +1,13 @@
-
 from src.cli import parse_args
-from src.services.converter_service import ConverterService
-from src.services.logger_service import get_logger
+from src.utils.logger_config import LoggerConfig
 
 def main():
-    logger = get_logger()
-
+    logger = LoggerConfig().get_logger()
     logger.info("🚀 Iniciando aplicación")
 
     try:
         args = parse_args()
         logger.info(f"📥 Argumentos recibidos: {args}")
-
-        service = ConverterService(
-            input_path=args.input,
-            output_path=args.output,
-            destination=args.dest,
-            force=args.force,
-        )
-
-        logger.info("🔄 Ejecutando servicio de conversión")
-        service.run()
-
         logger.info("✅ Proceso finalizado correctamente")
 
     except Exception as e:
