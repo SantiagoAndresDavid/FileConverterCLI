@@ -1,10 +1,9 @@
 from src.cli import parse_args
-from src.utils.logger_config import LoggerConfig
+from src.utils.logger_config import logger
 
 def main():
-    logger = LoggerConfig().get_logger()
     logger.info("🚀 Iniciando aplicación")
-
+    
     try:
         args = parse_args()
         logger.info(f"📥 Argumentos recibidos: {args}")
