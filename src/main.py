@@ -1,5 +1,5 @@
-from src.cli import parse_args
-from src.utils.logger_config import logger
+from cli import parse_args
+from utils.logger_config import logger
 
 def main():
     logger.info("🚀 Iniciando aplicación")

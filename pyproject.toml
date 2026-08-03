@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fileconvertercli"
+version = "1.0.0"
+description = "Conversor de archivos"
+authors = [
+    {name="Santiago"}
+]
+
+dependencies = []
+
+[project.scripts]
+fileconverter = "src.main:main"
