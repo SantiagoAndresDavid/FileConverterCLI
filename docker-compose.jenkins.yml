@@ -2,22 +2,27 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins
+    user: root
+    restart: unless-stopped
+
     ports:
       - "8080:8080"
       - "50000:50000"
+
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-    user: root
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
-    command: >
-      bash -c "
-      apt-get update &&
-      apt-get install -y git curl build-essential &&
-      /usr/bin/tini -- /usr/local/bin/jenkins.sh
-      "
-    restart: unless-stopped
+
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        apt-get update
+        apt-get install -y git curl build-essential docker.io
+        exec /usr/bin/tini -- /usr/local/bin/jenkins.sh
 
 volumes:
   jenkins_home:
