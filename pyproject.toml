@@ -1,16 +1,28 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "fileconvertercli"
 version = "1.0.0"
-description = "Conversor de archivos"
-authors = [
-    {name="Santiago"}
-]
-
+description = "CLI para convertir archivos"
+authors = [{ name = "Santiago Andres David" }]
+readme = "README.md"
+requires-python = ">=3.8"
 dependencies = []
 
-[project.scripts]
-fileconverter = "src.main:main"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+norecursedirs = ["Lib", "site-packages"]
