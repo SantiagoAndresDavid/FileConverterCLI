@@ -6,11 +6,9 @@ pipeline {
         stage('Setup') {
             steps {
                 sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-
-                pip install --upgrade pip
-                pip install build twine
+                python3 --version
+                python3 -m pip install --upgrade pip
+                python3 -m pip install build twine
                 '''
             }
         }
@@ -18,10 +16,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                . venv/bin/activate
-
                 if [ -f requirements.txt ]; then
-                    pip install -r requirements.txt
+                    python3 -m pip install -r requirements.txt
                 fi
                 '''
             }
@@ -30,13 +26,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                . venv/bin/activate
-
-                if [ -d tests ]; then
-                    python -m unittest discover -s tests
-                else
-                    echo "No tests found"
-                fi
+                python3 -m unittest discover -s test
                 '''
             }
         }
@@ -44,8 +34,7 @@ pipeline {
         stage('Build Package') {
             steps {
                 sh '''
-                . venv/bin/activate
-                python -m build
+                python3 -m build
                 '''
             }
         }
@@ -64,8 +53,7 @@ pipeline {
                     passwordVariable: 'TWINE_PASSWORD'
                 )]) {
                     sh '''
-                    . venv/bin/activate
-                    python -m twine upload dist/* --non-interactive
+                    python3 -m twine upload dist/* --non-interactive
                     '''
                 }
             }
@@ -79,14 +67,13 @@ pipeline {
         }
 
         failure {
-            echo "❌ Pipeline falló - limpiando workspace"
+            echo "❌ Pipeline falló - limpiando"
             sh '''
-            rm -rf venv dist build *.egg-info
+            rm -rf dist build *.egg-info
             '''
         }
 
         always {
-            echo "🧹 Limpieza final del workspace"
             cleanWs()
         }
     }
