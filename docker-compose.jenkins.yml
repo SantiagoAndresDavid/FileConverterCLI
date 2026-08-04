@@ -13,6 +13,13 @@ services:
       - ./builds:/var/jenkins_home/builds
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
+    user: root
+    command: >
+      bash -c "
+      apt-get update &&
+      apt-get install -y python3 python3-pip git curl &&
+      /usr/bin/tini -- /usr/local/bin/jenkins.sh
+      "
     restart: unless-stopped
 
 volumes:

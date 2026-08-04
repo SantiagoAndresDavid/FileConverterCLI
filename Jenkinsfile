@@ -13,8 +13,11 @@ pipeline {
         stage('Setup') {
             steps {
                 sh '''
-                python3 -m pip install --upgrade pip
-                pip3 install build twine
+                python3 -m venv venv
+                . venv/bin/activate
+
+                pip install --upgrade pip
+                pip install build twine
                 '''
             }
         }
