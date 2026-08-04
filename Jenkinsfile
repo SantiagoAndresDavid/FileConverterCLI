@@ -13,13 +13,18 @@ pipeline {
                 python --version
                 python -m pip install --upgrade pip
                 python -m pip install build twine
+                # Install runtime and test dependencies
+                if [ -f requirements.txt ]; then
+                    python -m pip install -r requirements.txt
+                fi
                 '''
             }
         }
 
         stage('Test') {
             steps {
-                sh 'python -m unittest discover -s test'
+                // Prefer pytest for discover and better output
+                sh 'python -m pytest -q'
             }
         }
 
