@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/SantiagoAndresDavid/FileConverterCLI.git'
-            }
-        }
-
         stage('Setup') {
             steps {
                 sh '''
@@ -24,8 +18,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                . venv/bin/activate
+
                 if [ -f requirements.txt ]; then
-                    pip3 install -r requirements.txt
+                    pip install -r requirements.txt
                 fi
                 '''
             }
@@ -34,8 +30,10 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
+                . venv/bin/activate
+
                 if [ -d tests ]; then
-                    python3 -m unittest discover -s tests
+                    python -m unittest discover -s tests
                 else
                     echo "No tests found"
                 fi
@@ -45,7 +43,10 @@ pipeline {
 
         stage('Build Package') {
             steps {
-                sh 'python3 -m build'
+                sh '''
+                . venv/bin/activate
+                python -m build
+                '''
             }
         }
 
@@ -63,7 +64,8 @@ pipeline {
                     passwordVariable: 'TWINE_PASSWORD'
                 )]) {
                     sh '''
-                    python3 -m twine upload dist/* --non-interactive
+                    . venv/bin/activate
+                    python -m twine upload dist/* --non-interactive
                     '''
                 }
             }
@@ -71,11 +73,21 @@ pipeline {
     }
 
     post {
+
         success {
-            echo "✅ Pipeline completo: build + distribución + PyPI"
+            echo "✅ Pipeline completo"
         }
+
         failure {
-            echo "❌ Falló el pipeline"
+            echo "❌ Pipeline falló - limpiando workspace"
+            sh '''
+            rm -rf venv dist build *.egg-info
+            '''
+        }
+
+        always {
+            echo "🧹 Limpieza final del workspace"
+            cleanWs()
         }
     }
 }
