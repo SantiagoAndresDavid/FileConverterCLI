@@ -5,8 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/SantiagoAndresDavid/FileConverterCLI.git'
+                git url: 'https://github.com/SantiagoAndresDavid/FileConverterCLI.git'
             }
         }
 
