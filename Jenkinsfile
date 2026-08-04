@@ -7,8 +7,16 @@ pipeline {
             steps {
                 sh '''
                 python3 --version
-                python3 -m pip install --upgrade pip
-                python3 -m pip install build twine
+
+                # Crear entorno virtual
+                python3 -m venv venv
+
+                # Activar entorno
+                . venv/bin/activate
+
+                # Actualizar pip y herramientas dentro del venv
+                python -m pip install --upgrade pip
+                python -m pip install build twine
                 '''
             }
         }
@@ -16,8 +24,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                . venv/bin/activate
+
                 if [ -f requirements.txt ]; then
-                    python3 -m pip install -r requirements.txt
+                    python -m pip install -r requirements.txt
                 fi
                 '''
             }
@@ -26,7 +36,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                python3 -m unittest discover -s test
+                . venv/bin/activate
+                python -m unittest discover -s test
                 '''
             }
         }
@@ -34,7 +45,8 @@ pipeline {
         stage('Build Package') {
             steps {
                 sh '''
-                python3 -m build
+                . venv/bin/activate
+                python -m build
                 '''
             }
         }
@@ -53,7 +65,8 @@ pipeline {
                     passwordVariable: 'TWINE_PASSWORD'
                 )]) {
                     sh '''
-                    python3 -m twine upload dist/* --non-interactive
+                    . venv/bin/activate
+                    python -m twine upload dist/* --non-interactive
                     '''
                 }
             }
@@ -69,7 +82,7 @@ pipeline {
         failure {
             echo "❌ Pipeline falló - limpiando"
             sh '''
-            rm -rf dist build *.egg-info
+            rm -rf dist build *.egg-info venv
             '''
         }
 
