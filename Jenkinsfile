@@ -37,7 +37,7 @@ pipeline {
         stage('Publish') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'pypi-credentials',
+                    credentialsId: 'pypi',
                     usernameVariable: 'TWINE_USERNAME',
                     passwordVariable: 'TWINE_PASSWORD'
                 )]) {
