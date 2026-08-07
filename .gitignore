@@ -13,6 +13,7 @@ dist/
 build/
 .eggs/
 
+.terraform/
 # =========================
 # Entornos virtuales
 # =========================
