@@ -1,4 +1,5 @@
 pipeline {
+    //cuando usas un agente docker el mismo se limpia despues de finalizar el proceso 
     agent {
         docker {
             image 'python:3.12-slim'
