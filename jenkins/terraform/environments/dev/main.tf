@@ -1,5 +1,4 @@
 module "resource_group" {
-
   source = "../../modules/resource_group"
 
   name     = var.resource_group_name
@@ -12,7 +11,6 @@ module "resource_group" {
   }
 
 }
-
 
 module "network" {
   source = "../../modules/network"
@@ -27,6 +25,22 @@ module "network" {
   subnet_name = var.subnet_name
 
   subnet_address_prefixes = var.subnet_address_prefixes
+
+
+
+  tags = {
+    Project     = "jenkins"
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+  }
+}
+
+module "public_ip" {
+  source = "../../modules/public_ip"
+
+  name                = var.public_ip_name
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
 
   tags = {
     Project     = "jenkins"

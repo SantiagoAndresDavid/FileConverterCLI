@@ -27,3 +27,9 @@ variable "subnet_address_prefixes" {
   description = "Address prefixes de la subnet"
   type        = list(string)
 }
+
+
+variable "public_ip_name" {
+  description = "Address space de la Virtual Network"
+  type        = string
+}
