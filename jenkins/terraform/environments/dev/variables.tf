@@ -33,3 +33,8 @@ variable "public_ip_name" {
   description = "Address space de la Virtual Network"
   type        = string
 }
+
+variable "NSG_name" {
+  description = "Address space de la Virtual Network"
+  type        = string
+}

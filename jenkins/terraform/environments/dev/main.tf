@@ -48,3 +48,18 @@ module "public_ip" {
     ManagedBy   = "Terraform"
   }
 }
+module "security" {
+  source = "../../modules/security"
+
+  name                = var.NSG_name
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+
+  admin_source_ip = "179.1.228.67/32" // por que se pone la ip publica de mi pc 
+
+  tags = {
+    Project     = "jenkins"
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+  }
+}
