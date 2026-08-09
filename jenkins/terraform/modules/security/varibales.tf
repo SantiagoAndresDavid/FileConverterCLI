@@ -1,0 +1,25 @@
+variable "name" {
+  description = "Nombre de la Public IP"
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "Nombre del Resource Group"
+  type        = string
+}
+
+variable "location" {
+  description = "Región de Azure"
+  type        = string
+}
+
+variable "admin_source_ip" {
+  description = "IP pública autorizada para administrar la VM"
+  type        = string
+}
+
+variable "tags" {
+  description = "Etiquetas de la Public IP"
+  type        = map(string)
+  default     = {}
+}

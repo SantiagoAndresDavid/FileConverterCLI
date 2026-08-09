@@ -1,8 +1,15 @@
-resource "azurerm_resource_group" "this" {
-
-  name     = var.name
-  location = var.location
-
-  tags = var.tags
-
+output "id" {
+  description = "ID del Resource Group"
+  value       = azurerm_resource_group.this.id
 }
+
+output "name" {
+  description = "Nombre del Resource Group"
+  value       = azurerm_resource_group.this.name
+}
+
+output "location" {
+  description = "Ubicación del Resource Group"
+  value       = azurerm_resource_group.this.location
+}
+
