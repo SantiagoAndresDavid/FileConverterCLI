@@ -50,6 +50,17 @@ config.local.py
 .env
 .env.*
 
+# SSH keys y configuración local
+id_rsa
+id_rsa.pub
+*.pem
+*.key
+*.ppk
+.ssh/
+ssh_config
+known_hosts
+authorized_keys
+
 # =========================
 # Testing / caché
 # =========================
@@ -71,6 +82,7 @@ htmlcov/
 # =========================
 .DS_Store
 Thumbs.db
+
 
 # =========================
 # Archivos temporales

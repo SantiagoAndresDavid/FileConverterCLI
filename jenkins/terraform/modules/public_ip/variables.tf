@@ -18,3 +18,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "sku" {
+  description = "SKU de la dirección IP pública"
+  type        = string
+}
