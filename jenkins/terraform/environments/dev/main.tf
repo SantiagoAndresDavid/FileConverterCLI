@@ -15,8 +15,7 @@ module "resource_group" {
 module "network" {
   source = "../../modules/network"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
+
 
   vnet_name = var.vnet_name
 
@@ -26,6 +25,8 @@ module "network" {
 
   subnet_address_prefixes = var.subnet_address_prefixes
 
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
 
 
   tags = {
@@ -39,10 +40,9 @@ module "public_ip" {
   source = "../../modules/public_ip"
 
   name                = var.public_ip_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
   sku               = var.public_ip_sku
-
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
   tags = {
     Project     = "jenkins"
     Environment = "dev"
@@ -53,10 +53,10 @@ module "security" {
   source = "../../modules/security"
 
   name                = var.NSG_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
 
-  admin_source_ip = "179.1.228.67/32" // por que se pone la ip publica de mi pc 
+  admin_source_ip = "*" // temporally open to all sources because the public IP is dynamic/NATed; restrict later to the real home/public IP
 
   tags = {
     Project     = "jenkins"
