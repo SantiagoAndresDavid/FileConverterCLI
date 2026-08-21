@@ -93,3 +93,10 @@ variable "virtual_machine_version" {
   description = "Versión de la imagen del sistema operativo"
   type        = string
 }
+
+variable "virtual_machine_extension_update_dependencies_path" {
+  description = "Versión de la imagen del sistema operativo"
+  type        = string
+}
+
+

@@ -119,3 +119,17 @@ module "virtual_machine" {
     ManagedBy   = "Terraform"
   }
 }
+
+module "vm_extension" {
+  source = "../../modules/post_creation_machine"
+
+  name               = "${var.virtual_machine_name}-post-config"
+  virtual_machine_id = module.virtual_machine.id
+
+  script_content = file(var.virtual_machine_extension_update_dependencies_path)
+  tags = {
+    Project     = "jenkins"
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+  }
+}
